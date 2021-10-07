@@ -10,9 +10,9 @@ const YELP_API_KEY = "z7ntXGQN2VWvlfeg15WnfafVJUfbRBg4EHlDj0nJiGKe40bdpf-vXRpDjN
 export default function Home() {
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
   const [city, setCity] = useState("SanDiego");
-  // const [activeTab, setActiveTab] = useState("Delivery");
+  const [activeTab, setActiveTab] = useState("Delivery");
   const getRestaurantsFromYelp = () => {
-    const yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
+  const yelpUrl = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
     fetch(`${yelpUrl}`,{
       headers:{
         Authorization:`Bearer ${YELP_API_KEY}`,
@@ -21,19 +21,21 @@ export default function Home() {
       }
     })
     .then(res=>res.json())
-    .then(data => {
+    .then((data) => {
       // console.log(data);
-      setRestaurantData(data.businesses)})
+      setRestaurantData(data.businesses.filter((businesses)=>
+      businesses.transactions.includes(activeTab.toLowerCase())))
+      })
   };
 
   useEffect(()=>{
     getRestaurantsFromYelp();
-  },[city])
+  },[city,activeTab])
   
   return (
     <SafeAreaView style={{backgroundColor:'#eee',flex:1}}>
       <View style={{backgroundColor:'white',padding:25}}>
-      <HeaderTabs/>
+      <HeaderTabs activeTab={activeTab} setActiveTab={setActiveTab} />
       {/* <SearchBar/> */}
       <NewSearchBar cityHandler={setCity}/>
       </View>
