@@ -4,8 +4,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Categories from '../components/Categories';
 import HeaderTabs from '../components/HeaderTabs';
 import RestaurantItems ,{localRestaurants} from '../components/RestaurantItems';
-import SearchBar from '../components/SearchBar';
+import { Divider } from "react-native-elements";
 import NewSearchBar from '../components/NewSearchBar';
+import BottomTabs from '../components/BottomTabs';
 const YELP_API_KEY = "z7ntXGQN2VWvlfeg15WnfafVJUfbRBg4EHlDj0nJiGKe40bdpf-vXRpDjNctbAej6SppdE-zadxzyM7cbIvs8CPW_Z77UWN6HM82ubKvPwrt--4j_9un0-9FcGxVYXYx"
 export default function Home() {
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
@@ -43,6 +44,8 @@ export default function Home() {
       <Categories/>
      <RestaurantItems restaurantData={restaurantData}/>
       </ScrollView>
+      <Divider width={1} />
+      <BottomTabs />
     </SafeAreaView>
     
   );
